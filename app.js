@@ -8,7 +8,7 @@ if ('serviceWorker' in navigator) {
 }
 
 // ── GLOBALE VARIABLEN ────────────────────────────────
-let dueCards = [];
+let queue = [];          // aktuelle Session-Warteschlange
 let currentIndex = 0;
 let isFlipped = false;
 let sessionStats = { correct: 0, wrong: 0 };
@@ -49,7 +49,7 @@ async function renderDeckList() {
         <div class="deck-badges">
           ${deck.newCount > 0 ? `<span class="badge badge-new">${deck.newCount} neu</span>` : ''}
           ${deck.dueCount > 0 ? `<span class="badge badge-due">${deck.dueCount} fällig</span>` : ''}
-          ${totalDue === 0 ? `<span class="badge badge-done">✓ fertig</span>` : ''}
+          ${totalDue === 0 ? `<span class="badge badge-done">✓ fertig für heute</span>` : ''}
         </div>
       </div>
       <button class="btn-delete" onclick="confirmDelete('${deck.name.replace(/'/g, "\\'")}')">🗑</button>`;
@@ -102,7 +102,7 @@ window.confirmDelete = async function(deckName) {
 // ── LERNSESSION STARTEN ──────────────────────────────
 window.startSession = async function(deckName) {
   currentDeckName = deckName;
-  dueCards = await getDueCards(deckName);
+  const dueCards = await getDueCards(deckName);
   currentIndex = 0;
   isFlipped = false;
   sessionStats = { correct: 0, wrong: 0 };
@@ -112,6 +112,10 @@ window.startSession = async function(deckName) {
     return;
   }
 
+  // Warteschlange aufbauen
+  // Neue Karten zuerst, dann Wiederholungen
+  queue = [...dueCards];
+
   document.getElementById('deck-title').textContent = deckName;
   showScreen('screen-learn');
   showCard();
@@ -119,12 +123,12 @@ window.startSession = async function(deckName) {
 
 // ── KARTE ANZEIGEN ───────────────────────────────────
 function showCard() {
-  if (currentIndex >= dueCards.length) {
+  if (queue.length === 0) {
     showDoneScreen();
     return;
   }
 
-  const card = dueCards[currentIndex];
+  const card = queue[0];
 
   document.getElementById('question-text').textContent = card.front;
   document.getElementById('answer-text').textContent = card.back;
@@ -135,7 +139,7 @@ function showCard() {
   document.getElementById('flip-hint').style.display = 'block';
   isFlipped = false;
 
-  // Zustand-Label anzeigen
+  // Zustand-Label
   const stateLabel = document.getElementById('card-state');
   const stateTexts = {
     new: '🆕 Neu',
@@ -145,11 +149,21 @@ function showCard() {
   };
   stateLabel.textContent = stateTexts[card.state] || '';
 
-  // Fortschritt
-  const progress = (currentIndex / dueCards.length) * 100;
+  // Fortschritt zeigt wie viele EINMALIG gelernte Karten
+  updateProgress();
+}
+
+// ── FORTSCHRITT BERECHNEN ────────────────────────────
+function updateProgress() {
+  // Zähle nur einzigartige Karten in der Queue (nicht Duplikate)
+  const uniqueInQueue = new Set(queue.map(c => c.id)).size;
+  const total = sessionStats.correct + sessionStats.wrong + uniqueInQueue;
+  const done = sessionStats.correct + sessionStats.wrong;
+  const progress = total > 0 ? (done / total) * 100 : 0;
+
   document.getElementById('progress-fill').style.width = progress + '%';
   document.getElementById('card-counter').textContent =
-    `${currentIndex + 1} / ${dueCards.length}`;
+    `${done} / ${total}`;
 }
 
 // ── KARTE UMDREHEN ───────────────────────────────────
@@ -165,19 +179,33 @@ window.flipCard = function() {
 // ── KARTE BEWERTEN ───────────────────────────────────
 // quality: 1=Nochmal, 2=Schwer, 3=Gut, 4=Leicht
 window.rateCard = async function(quality) {
-  const card = dueCards[currentIndex];
+  const card = queue.shift(); // aktuelle Karte aus Queue entfernen
   const updated = ankiAlgorithm(card, quality);
   await updateCard(updated);
 
-  if (quality >= 3) {
+  if (quality === 1) {
+    // ❌ Nochmal → Karte kommt SOFORT wieder ans Ende der Queue
+    flashCard('#ff6b6b');
+    queue.push(updated); // wieder hinten einreihen
+
+  } else if (quality === 2) {
+    // 😐 Schwer → Karte kommt nochmal, aber weiter hinten
+    flashCard('#ffd93d');
+    // Nach 3 Karten wieder einreihen (oder am Ende wenn Queue klein)
+    const insertAt = Math.min(3, queue.length);
+    queue.splice(insertAt, 0, updated);
+
+  } else if (quality === 3) {
+    // ✅ Gut → Karte ist für diese Session erledigt
+    flashCard('#6bcb77');
     sessionStats.correct++;
-    flashCard('#6bcb77'); // grün
-  } else {
-    sessionStats.wrong++;
-    flashCard('#ff6b6b'); // rot
+
+  } else if (quality === 4) {
+    // ⭐ Leicht → Karte ist sofort erledigt
+    flashCard('#4d96ff');
+    sessionStats.correct++;
   }
 
-  currentIndex++;
   setTimeout(() => showCard(), 350);
 };
 
@@ -192,11 +220,13 @@ function flashCard(color) {
 // ── FERTIG-SCREEN ────────────────────────────────────
 function showDoneScreen() {
   const total = sessionStats.correct + sessionStats.wrong;
-  const pct = total > 0 ? Math.round((sessionStats.correct / total) * 100) : 0;
 
+  // Wie viele Karten wurden wirklich gemeistert?
   document.getElementById('done-deck').textContent = currentDeckName;
   document.getElementById('done-correct').textContent = sessionStats.correct;
   document.getElementById('done-wrong').textContent = sessionStats.wrong;
+
+  const pct = total > 0 ? Math.round((sessionStats.correct / total) * 100) : 100;
   document.getElementById('done-pct').textContent = pct + '%';
 
   showScreen('screen-done');
