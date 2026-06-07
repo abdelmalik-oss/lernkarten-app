@@ -16,16 +16,12 @@
   <!--  SCREEN 1: STAPEL-AUSWAHL                 -->
   <!-- ══════════════════════════════════════════ -->
   <div id="screen-decks" class="screen active">
-
     <div class="header">
       <h1>🩺 Lernkarten</h1>
     </div>
-
     <div id="deck-list"></div>
-
     <button id="btn-import" class="btn-primary">📂 Datei importieren</button>
     <input type="file" id="fileInput" accept=".txt,.csv" style="display:none">
-
   </div>
 
 
@@ -34,12 +30,10 @@
   <!-- ══════════════════════════════════════════ -->
   <div id="screen-learn" class="screen">
 
-    <!-- Fortschrittsbalken -->
     <div id="progress-bar">
       <div id="progress-fill"></div>
     </div>
 
-    <!-- Info-Zeile -->
     <div class="learn-info">
       <span id="card-state"></span>
       <span id="card-counter"></span>
@@ -47,40 +41,53 @@
 
     <p id="deck-title"></p>
 
-    <!-- Karteikarte -->
     <div id="card" onclick="flipCard()">
       <div id="card-inner">
-
         <div id="card-front">
           <p id="question-text"></p>
           <p id="flip-hint">👆 Tippen zum Umdrehen</p>
         </div>
-
         <div id="card-back">
           <p id="answer-text"></p>
         </div>
-
       </div>
     </div>
 
-    <!-- Bewertungsknöpfe — erscheinen nach dem Umdrehen -->
     <div id="rating-buttons" style="display:none">
-      <button class="btn-again"  onclick="rateCard(1)">❌<br><span>Nochmal</span></button>
-      <button class="btn-hard"   onclick="rateCard(2)">😐<br><span>Schwer</span></button>
-      <button class="btn-good"   onclick="rateCard(3)">✅<br><span>Gut</span></button>
-      <button class="btn-easy"   onclick="rateCard(4)">⭐<br><span>Leicht</span></button>
+      <button class="btn-again" onclick="rateCard(1)">❌<br><span>Nochmal</span></button>
+      <button class="btn-hard"  onclick="rateCard(2)">😐<br><span>Schwer</span></button>
+      <button class="btn-good"  onclick="rateCard(3)">✅<br><span>Gut</span></button>
+      <button class="btn-easy"  onclick="rateCard(4)">⭐<br><span>Leicht</span></button>
     </div>
 
     <button id="btn-back" onclick="showDecks()">← Zurück zu Stapeln</button>
-
   </div>
 
 
   <!-- ══════════════════════════════════════════ -->
-  <!--  SCREEN 3: SESSION ABGESCHLOSSEN          -->
+  <!--  SCREEN 3: WARTEN (Lernschritte)          -->
+  <!--  Erscheint wenn alle aktuellen Karten     -->
+  <!--  bewertet wurden aber Lernkarten noch     -->
+  <!--  auf ihren Timer warten — genau wie Anki  -->
+  <!-- ══════════════════════════════════════════ -->
+  <div id="screen-waiting" class="screen">
+    <div class="waiting-box">
+      <div class="waiting-icon">⏳</div>
+      <h2>Gleich geht's weiter…</h2>
+      <p>Lernkarten kommen in</p>
+      <div class="waiting-countdown">
+        <span id="waiting-seconds">–</span>s
+      </div>
+      <p class="waiting-hint">Anki zeigt dir die Karte sobald die Lernzeit abgelaufen ist.</p>
+    </div>
+    <button id="btn-back-waiting" onclick="showDecks()">← Zurück zu Stapeln</button>
+  </div>
+
+
+  <!-- ══════════════════════════════════════════ -->
+  <!--  SCREEN 4: SESSION ABGESCHLOSSEN          -->
   <!-- ══════════════════════════════════════════ -->
   <div id="screen-done" class="screen">
-
     <div class="done-icon">🎉</div>
     <h2>Alle Karten gelernt!</h2>
     <p id="done-deck"></p>
@@ -101,7 +108,6 @@
     </div>
 
     <button onclick="showDecks()" class="btn-primary">🏠 Zurück zu Stapeln</button>
-
   </div>
 
 
