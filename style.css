@@ -30,11 +30,7 @@ h2 { font-size: 1.4rem; font-weight: 700; margin-bottom: 8px; }
   align-items: center;
 }
 
-.deck-info {
-  flex: 1;
-  cursor: pointer;
-  padding-right: 12px;
-}
+.deck-info { flex: 1; cursor: pointer; padding-right: 12px; }
 
 .deck-name {
   display: block;
@@ -43,11 +39,7 @@ h2 { font-size: 1.4rem; font-weight: 700; margin-bottom: 8px; }
   margin-bottom: 6px;
 }
 
-.deck-badges {
-  display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
-}
+.deck-badges { display: flex; gap: 6px; flex-wrap: wrap; }
 
 .badge {
   border-radius: 20px;
@@ -55,90 +47,55 @@ h2 { font-size: 1.4rem; font-weight: 700; margin-bottom: 8px; }
   font-size: 0.75rem;
   font-weight: 600;
 }
-
 .badge-new  { background: #e3f2fd; color: #1565c0; }
 .badge-due  { background: #fff3e0; color: #e65100; }
 .badge-done { background: #e8f5e9; color: #2e7d32; }
 
 .btn-delete {
-  background: none;
-  border: none;
-  font-size: 1.1rem;
-  cursor: pointer;
-  padding: 6px;
-  opacity: 0.4;
-  flex-shrink: 0;
+  background: none; border: none;
+  font-size: 1.1rem; cursor: pointer;
+  padding: 6px; opacity: 0.4; flex-shrink: 0;
 }
 .btn-delete:active { opacity: 1; }
 
 /* ── LEERER ZUSTAND ─────────────────────────── */
-.empty-state {
-  text-align: center;
-  padding: 50px 20px;
-  color: #999;
-}
+.empty-state { text-align: center; padding: 50px 20px; color: #999; }
 .empty-state p { font-size: 1.05rem; margin-bottom: 8px; }
 .empty-state .hint { font-size: 0.85rem; }
 
 /* ── IMPORT-BUTTON ──────────────────────────── */
 .btn-primary {
-  display: block;
-  width: 100%;
-  padding: 16px;
-  background: #2196F3;
-  color: white;
-  border: none;
-  border-radius: 14px;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  margin-top: 20px;
+  display: block; width: 100%;
+  padding: 16px; background: #2196F3;
+  color: white; border: none;
+  border-radius: 14px; font-size: 1rem;
+  font-weight: 600; cursor: pointer; margin-top: 20px;
 }
 .btn-primary:active { background: #1976D2; }
 
 /* ── LERN-SCREEN ────────────────────────────── */
 #deck-title {
-  font-size: 0.75rem;
-  color: #aaa;
-  text-align: center;
-  margin-bottom: 10px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  font-size: 0.75rem; color: #aaa;
+  text-align: center; margin-bottom: 10px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
 
 .learn-info {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 4px;
+  display: flex; justify-content: space-between;
+  align-items: center; margin-bottom: 4px;
 }
 
-#card-state {
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: #888;
-}
-
-#card-counter {
-  font-size: 0.8rem;
-  color: #aaa;
-}
+#card-state  { font-size: 0.75rem; font-weight: 600; color: #888; }
+#card-counter { font-size: 0.8rem; color: #aaa; }
 
 /* ── FORTSCHRITTSBALKEN ─────────────────────── */
 #progress-bar {
-  height: 5px;
-  background: #e0e0e0;
-  border-radius: 3px;
-  margin-bottom: 8px;
-  overflow: hidden;
+  height: 5px; background: #e0e0e0;
+  border-radius: 3px; margin-bottom: 8px; overflow: hidden;
 }
 #progress-fill {
-  height: 100%;
-  background: #2196F3;
-  border-radius: 3px;
-  transition: width 0.4s ease;
-  width: 0%;
+  height: 100%; background: #2196F3;
+  border-radius: 3px; transition: width 0.4s ease; width: 0%;
 }
 
 /* ── KARTEIKARTE ────────────────────────────── */
@@ -150,75 +107,51 @@ h2 { font-size: 1.4rem; font-weight: 700; margin-bottom: 8px; }
 }
 
 #card-inner {
-  position: relative;
-  width: 100%;
-  height: 100%;
+  position: relative; width: 100%; height: 100%;
   transform-style: preserve-3d;
   transition: transform 0.45s ease;
   border-radius: 20px;
 }
 
-#card.flipped #card-inner {
-  transform: rotateY(180deg);
-}
+#card.flipped #card-inner { transform: rotateY(180deg); }
 
-#card-front,
-#card-back {
-  position: absolute;
-  width: 100%;
-  height: 100%;
+#card-front, #card-back {
+  position: absolute; width: 100%; height: 100%;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
   border-radius: 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 28px 24px;
-  text-align: center;
+  display: flex; flex-direction: column;
+  justify-content: center; align-items: center;
+  padding: 28px 24px; text-align: center;
   box-shadow: 0 4px 20px rgba(0,0,0,0.1);
 }
 
 #card-front { background: white; }
 #card-back  { background: #e3f2fd; transform: rotateY(180deg); }
 
-#question-text,
-#answer-text {
-  font-size: 1.05rem;
-  line-height: 1.65;
-  color: #1a1a2e;
+#question-text, #answer-text {
+  font-size: 1.05rem; line-height: 1.65; color: #1a1a2e;
 }
 
-#flip-hint {
-  margin-top: 18px;
-  font-size: 0.75rem;
-  color: #ccc;
-}
+#flip-hint { margin-top: 18px; font-size: 0.75rem; color: #ccc; }
 
 /* ── BEWERTUNGSKNÖPFE ───────────────────────── */
 #rating-buttons {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
-  gap: 8px;
-  margin-top: 4px;
+  gap: 8px; margin-top: 4px;
 }
 
 #rating-buttons button {
-  padding: 12px 4px;
-  border: none;
-  border-radius: 14px;
-  font-size: 1.2rem;
-  font-weight: 700;
-  cursor: pointer;
-  line-height: 1.4;
-  transition: transform 0.1s;
+  padding: 12px 4px; border: none;
+  border-radius: 14px; font-size: 1.2rem;
+  font-weight: 700; cursor: pointer;
+  line-height: 1.4; transition: transform 0.1s;
 }
 
 #rating-buttons button span {
-  display: block;
-  font-size: 0.65rem;
-  font-weight: 600;
-  margin-top: 2px;
+  display: block; font-size: 0.65rem;
+  font-weight: 600; margin-top: 2px;
 }
 
 #rating-buttons button:active { transform: scale(0.94); }
@@ -229,43 +162,60 @@ h2 { font-size: 1.4rem; font-weight: 700; margin-bottom: 8px; }
 .btn-easy  { background: #4d96ff; color: white; }
 
 /* ── ZURÜCK-BUTTON ──────────────────────────── */
-#btn-back {
-  display: block;
-  width: 100%;
-  margin-top: 14px;
-  padding: 12px;
-  background: none;
-  border: 2px solid #e0e0e0;
-  border-radius: 14px;
-  font-size: 0.9rem;
-  color: #aaa;
-  cursor: pointer;
+#btn-back, #btn-back-waiting {
+  display: block; width: 100%;
+  margin-top: 14px; padding: 12px;
+  background: none; border: 2px solid #e0e0e0;
+  border-radius: 14px; font-size: 0.9rem;
+  color: #aaa; cursor: pointer;
+}
+
+/* ── WARTE-SCREEN ───────────────────────────── */
+#screen-waiting {
+  display: none;
+  padding-top: 60px;
+}
+
+#screen-waiting.active { display: block; }
+
+.waiting-box {
+  text-align: center;
+  background: white;
+  border-radius: 24px;
+  padding: 40px 24px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  margin-bottom: 16px;
+}
+
+.waiting-icon { font-size: 3rem; margin-bottom: 16px; }
+
+.waiting-countdown {
+  font-size: 3.5rem;
+  font-weight: 700;
+  color: #2196F3;
+  margin: 16px 0;
+}
+
+.waiting-hint {
+  font-size: 0.8rem;
+  color: #bbb;
+  margin-top: 12px;
+  line-height: 1.5;
 }
 
 /* ── FERTIG-SCREEN ──────────────────────────── */
-#screen-done {
-  text-align: center;
-  padding-top: 40px;
-}
-
+#screen-done { text-align: center; padding-top: 40px; }
 .done-icon { font-size: 4rem; margin-bottom: 16px; }
 
-#done-deck {
-  font-size: 0.82rem;
-  color: #999;
-  margin-bottom: 24px;
-}
+#done-deck { font-size: 0.82rem; color: #999; margin-bottom: 24px; }
 
 .stats-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 12px;
-  margin: 24px 0;
+  display: grid; grid-template-columns: 1fr 1fr 1fr;
+  gap: 12px; margin: 24px 0;
 }
 
 .stat-box {
-  background: white;
-  border-radius: 16px;
+  background: white; border-radius: 16px;
   padding: 18px 8px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.07);
 }
