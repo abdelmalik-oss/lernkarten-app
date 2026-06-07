@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Lernkarten">
+  <title>Pflegekarteikarten</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ══════════════════════════════════════════ -->
+  <!--  SCREEN 1: STAPEL-AUSWAHL                 -->
+  <!-- ══════════════════════════════════════════ -->
+  <div id="screen-decks" class="screen active">
+
+    <div class="header">
+      <h1>🩺 Lernkarten</h1>
+    </div>
+
+    <div id="deck-list"></div>
+
+    <button id="btn-import" class="btn-primary">📂 Datei importieren</button>
+    <input type="file" id="fileInput" accept=".txt,.csv" style="display:none">
+
+  </div>
+
+
+  <!-- ══════════════════════════════════════════ -->
+  <!--  SCREEN 2: LERNMODUS                      -->
+  <!-- ══════════════════════════════════════════ -->
+  <div id="screen-learn" class="screen">
+
+    <!-- Fortschrittsbalken -->
+    <div id="progress-bar">
+      <div id="progress-fill"></div>
+    </div>
+
+    <!-- Info-Zeile -->
+    <div class="learn-info">
+      <span id="card-state"></span>
+      <span id="card-counter"></span>
+    </div>
+
+    <p id="deck-title"></p>
+
+    <!-- Karteikarte -->
+    <div id="card" onclick="flipCard()">
+      <div id="card-inner">
+
+        <div id="card-front">
+          <p id="question-text"></p>
+          <p id="flip-hint">👆 Tippen zum Umdrehen</p>
+        </div>
+
+        <div id="card-back">
+          <p id="answer-text"></p>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Bewertungsknöpfe — erscheinen nach dem Umdrehen -->
+    <div id="rating-buttons" style="display:none">
+      <button class="btn-again"  onclick="rateCard(1)">❌<br><span>Nochmal</span></button>
+      <button class="btn-hard"   onclick="rateCard(2)">😐<br><span>Schwer</span></button>
+      <button class="btn-good"   onclick="rateCard(3)">✅<br><span>Gut</span></button>
+      <button class="btn-easy"   onclick="rateCard(4)">⭐<br><span>Leicht</span></button>
+    </div>
+
+    <button id="btn-back" onclick="showDecks()">← Zurück zu Stapeln</button>
+
+  </div>
+
+
+  <!-- ══════════════════════════════════════════ -->
+  <!--  SCREEN 3: SESSION ABGESCHLOSSEN          -->
+  <!-- ══════════════════════════════════════════ -->
+  <div id="screen-done" class="screen">
+
+    <div class="done-icon">🎉</div>
+    <h2>Alle Karten gelernt!</h2>
+    <p id="done-deck"></p>
+
+    <div class="stats-grid">
+      <div class="stat-box stat-correct">
+        <div class="stat-number" id="done-correct">0</div>
+        <div class="stat-label">Richtig</div>
+      </div>
+      <div class="stat-box stat-wrong">
+        <div class="stat-number" id="done-wrong">0</div>
+        <div class="stat-label">Nochmal</div>
+      </div>
+      <div class="stat-box stat-pct">
+        <div class="stat-number" id="done-pct">0%</div>
+        <div class="stat-label">Quote</div>
+      </div>
+    </div>
+
+    <button onclick="showDecks()" class="btn-primary">🏠 Zurück zu Stapeln</button>
+
+  </div>
+
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

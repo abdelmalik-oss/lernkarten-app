@@ -1,0 +1,9 @@
+{
+  "name": "Pflegekarteikarten",
+  "short_name": "Lernkarten",
+  "description": "Offline Karteikarten für die Pflegeausbildung",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f0f4f8",
+  "theme_color": "#2196F3"
+}
